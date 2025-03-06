@@ -17,6 +17,7 @@ public class PlayerCollision : MonoBehaviour
 
             // Disable player movement.
             movement.enabled = false;
+            FindObjectOfType<GameManager>().EndGame();
 
             // Fracture the player.
             DestructionBehavior playerDestruction = GetComponent<DestructionBehavior>();

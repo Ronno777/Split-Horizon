@@ -120,4 +120,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fractured: {fileID: 3945917225192347886, guid: 2aab13a27392a754088a05f21c8976a7, type: 3}
-  breakForce: 0
+  breakForce: 300
