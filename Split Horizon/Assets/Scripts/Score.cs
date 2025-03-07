@@ -7,9 +7,17 @@ public class Score : MonoBehaviour
     public Transform player;
     public TextMeshProUGUI scoreText;
 
-    // Update is called once per frame
     void Update()
     {
-        scoreText.text = player.position.z.ToString("0");
+        // Check if the player is null before accessing position
+        if (player != null)
+        {
+            scoreText.text = player.position.z.ToString("0");
+        }
+        else
+        {
+            // Optional: Display "Game Over" or a static score if the player is null
+            scoreText.text = "Game Over";
+        }
     }
 }

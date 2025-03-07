@@ -6,9 +6,12 @@ public class CameraBehavior : MonoBehaviour
     public PlayerMovement playerMovement;         // Reference to the player's PlayerMovement script.
     public Vector3 offset = new Vector3(0, 2, -5);  // Base offset. The Y component is treated as a magnitude.
 
-    public float fixedPitch = 10f;                  // Fixed pitch angle.
-    public float fixedYaw = 0f;                     // Fixed yaw angle.
-    public float rollSmoothSpeed = 5f;              // Smoothing factor for roll (z rotation).
+    public float fixedPitch = 10f;                // Fixed pitch angle.
+    public float fixedYaw = 0f;                   // Fixed yaw angle.
+    public float rollSmoothSpeed = 5f;            // Smoothing factor for roll (z rotation).
+
+    // New parameter for lateral tilt (in degrees).
+    public float lateralTiltAngle = 5f;
 
     private float currentRoll = 0f;
 
@@ -29,7 +32,6 @@ public class CameraBehavior : MonoBehaviour
         // When flipping, gradually interpolate the Y offset.
         if (playerMovement.IsFlipping)
         {
-            // Store the starting offset at the moment the flip begins.
             if (!hasStoredStartingYOffset)
             {
                 startingYOffset = transform.position.y - player.position.y;
@@ -49,9 +51,16 @@ public class CameraBehavior : MonoBehaviour
             player.position.z + offset.z
         );
 
-        // Gradually update the camera's roll (Z rotation) to follow the player's flip.
-        float targetRoll = player.eulerAngles.z;
+        // Get horizontal input from the player (A/D or arrow keys).
+        float horizontalInput = Input.GetAxis("Horizontal"); // Value between -1 and 1.
+        // Calculate the lateral tilt offset.
+        float lateralTilt = horizontalInput * lateralTiltAngle;
+
+        // Determine the target roll based on player's current roll (from flips) plus lateral tilt.
+        float targetRoll = player.eulerAngles.z + lateralTilt;
         currentRoll = Mathf.LerpAngle(currentRoll, targetRoll, rollSmoothSpeed * Time.deltaTime);
+
+        // Apply the fixed pitch and yaw with the smoothly updated roll.
         transform.rotation = Quaternion.Euler(fixedPitch, fixedYaw, currentRoll);
     }
 }

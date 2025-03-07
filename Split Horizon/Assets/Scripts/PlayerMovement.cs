@@ -42,10 +42,15 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKey("a"))
             rb.AddForce(-sidewaysForce * Time.deltaTime, 0, 0, ForceMode.VelocityChange);
 
-        //if (rb.position.y < 0f)
-        //{
-        //    FindObjectOfType<GameManager>().EndGame();
-        //}
+        if (rb.position.y < -2f || rb.position.y > 24f)
+        {
+            DestructionBehavior playerDestruction = GetComponent<DestructionBehavior>();
+            if (playerDestruction != null)
+            {
+                playerDestruction.FractureObject();
+            }
+            FindObjectOfType<GameManager>().EndGame();
+        }
     }
 
     void Update()

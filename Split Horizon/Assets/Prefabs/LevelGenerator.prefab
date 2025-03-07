@@ -1,0 +1,99 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1504614816403243692
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8039367372583515456}
+  - component: {fileID: 8246978315400421333}
+  - component: {fileID: 4370813263609238497}
+  m_Layer: 0
+  m_Name: LevelGenerator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8039367372583515456
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1504614816403243692}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.00027659535, y: 1.0462831, z: 1.6295271}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8246978315400421333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1504614816403243692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc78433e54a4089448a64e91d2466b81, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cubePrefab: {fileID: 5669470724609737552, guid: 8632d6e9385e0f94b813db5138e92eca, type: 3}
+  cubeType2Prefab: {fileID: 4093407105572727737, guid: 572c6a37a1ec827438c7b058f2fe0f39, type: 3}
+  cubeType3Prefab: {fileID: 7424855586100662289, guid: 9d4851cbc0e306e439aa223496fa50e0, type: 3}
+  cubeType4Prefab: {fileID: 5482548857493410471, guid: 3f637a39e3db99047b1b7e920dad4ff3, type: 3}
+  cubeType5Prefab: {fileID: 9039063508328043073, guid: 93634a78d8eb58e478fee5b860840e4b, type: 3}
+  cubeType2Rotation: {x: 0, y: 0, z: 0}
+  cubeType3Rotation: {x: 0, y: 0, z: 0}
+  cubeType4Rotation: {x: 0, y: 0, z: 0}
+  cubeType5Rotation: {x: 0, y: 0, z: 0}
+  cubeType4YOffset: 1
+  cubeType5YOffset: 0.5
+  ground: {fileID: 0}
+  playerTransform: {fileID: 0}
+  spawnZMinOffset: 10
+  cubeCount: 40
+  spawnYOffset: 0.5
+  spawnHeightRange: 7
+  cubeType2Count: 15
+  cubeType3Count: 10
+  cubeType4Count: 10
+  cubeType5Count: 15
+--- !u!114 &4370813263609238497
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1504614816403243692}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4bc29b9c45eb12e45add85ccec08a202, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cubePrefab: {fileID: 5669470724609737552, guid: 8632d6e9385e0f94b813db5138e92eca, type: 3}
+  cubeType2Prefab: {fileID: 4093407105572727737, guid: 572c6a37a1ec827438c7b058f2fe0f39, type: 3}
+  cubeType3Prefab: {fileID: 7424855586100662289, guid: 9d4851cbc0e306e439aa223496fa50e0, type: 3}
+  cubeType4Prefab: {fileID: 5482548857493410471, guid: 3f637a39e3db99047b1b7e920dad4ff3, type: 3}
+  cubeType5Prefab: {fileID: 9039063508328043073, guid: 93634a78d8eb58e478fee5b860840e4b, type: 3}
+  cubeType2Rotation: {x: 0, y: 0, z: 0}
+  cubeType3Rotation: {x: 0, y: 0, z: 0}
+  cubeType4Rotation: {x: 0, y: 0, z: 0}
+  cubeType5Rotation: {x: 0, y: 0, z: 0}
+  cubeType4YOffset: 1
+  cubeType5YOffset: 0.5
+  ceiling: {fileID: 0}
+  cubeCount: 40
+  spawnYOffset: 0.5
+  spawnHeightRange: 7
+  cubeType2Count: 15
+  cubeType3Count: 10
+  cubeType4Count: 10
+  cubeType5Count: 15
