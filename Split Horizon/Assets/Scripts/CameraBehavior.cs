@@ -1,4 +1,6 @@
 using UnityEngine;
+using TMPro;
+using UnityEngine.UI;
 
 public class CameraBehavior : MonoBehaviour
 {
@@ -6,7 +8,7 @@ public class CameraBehavior : MonoBehaviour
     public PlayerMovement playerMovement;         // Reference to the player's PlayerMovement script.
     public Vector3 offset = new Vector3(0, 2, -5);  // Base offset. The Y component is treated as a magnitude.
 
-    public float fixedPitch = 10f;                // Fixed pitch angle.
+    public float fixedPitch = 10f;                // Fixed pitch angle when not flipped.
     public float fixedYaw = 0f;                   // Fixed yaw angle.
     public float rollSmoothSpeed = 5f;            // Smoothing factor for roll (z rotation).
 
@@ -14,10 +16,20 @@ public class CameraBehavior : MonoBehaviour
     public float lateralTiltAngle = 5f;
 
     private float currentRoll = 0f;
+    private float currentPitch = 0f;  // Smoothly updated pitch.
 
     // Variables for smoothly interpolating the Y offset.
     private float startingYOffset = 0f;
     private bool hasStoredStartingYOffset = false;
+
+    void Start()
+    {
+        if (player != null && playerMovement != null)
+        {
+            // Initialize currentPitch based on the player's current gravity state.
+            currentPitch = playerMovement.GravityFlipped ? -fixedPitch : fixedPitch;
+        }
+    }
 
     void LateUpdate()
     {
@@ -29,7 +41,7 @@ public class CameraBehavior : MonoBehaviour
         float targetY = playerMovement.GravityFlipped ? -baseY : baseY;
         float effectiveY = targetY;
 
-        // When flipping, gradually interpolate the Y offset.
+        // When flipping, interpolate the Y offset.
         if (playerMovement.IsFlipping)
         {
             if (!hasStoredStartingYOffset)
@@ -51,16 +63,20 @@ public class CameraBehavior : MonoBehaviour
             player.position.z + offset.z
         );
 
-        // Get horizontal input from the player (A/D or arrow keys).
+        // Calculate lateral tilt based on horizontal input.
         float horizontalInput = Input.GetAxis("Horizontal"); // Value between -1 and 1.
-        // Calculate the lateral tilt offset.
         float lateralTilt = horizontalInput * lateralTiltAngle;
 
-        // Determine the target roll based on player's current roll (from flips) plus lateral tilt.
+        // Update roll (Z rotation) smoothly.
         float targetRoll = player.eulerAngles.z + lateralTilt;
         currentRoll = Mathf.LerpAngle(currentRoll, targetRoll, rollSmoothSpeed * Time.deltaTime);
 
-        // Apply the fixed pitch and yaw with the smoothly updated roll.
-        transform.rotation = Quaternion.Euler(fixedPitch, fixedYaw, currentRoll);
+        // Smoothly update pitch toward the desired target.
+        float targetPitch = playerMovement.GravityFlipped ? -fixedPitch : fixedPitch;
+        // Using the same rollSmoothSpeed for pitch smoothing; adjust as needed.
+        currentPitch = Mathf.LerpAngle(currentPitch, targetPitch, rollSmoothSpeed * Time.deltaTime);
+
+        // Apply the final rotation with the computed pitch, fixed yaw, and smoothed roll.
+        transform.rotation = Quaternion.Euler(currentPitch, fixedYaw, currentRoll);
     }
 }

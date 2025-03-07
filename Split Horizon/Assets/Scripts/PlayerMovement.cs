@@ -11,6 +11,10 @@ public class PlayerMovement : MonoBehaviour
     public float flipDuration = 1f;
     public float detachForce = 2f;  // Adjust for how gently the player detaches
 
+    [Header("Level End Settings")]
+    // Set this to the END prefab's transform so that once the player reaches or passes it, forward force stops.
+    public Transform levelEnd;
+
     private bool isGravityFlipped = false;
     private bool isFlipping = false;
     public bool GravityFlipped { get { return isGravityFlipped; } }
@@ -37,8 +41,11 @@ public class PlayerMovement : MonoBehaviour
         }
         rb.AddForce(gravityDir * currentGravity, ForceMode.Acceleration);
 
-        // Always add forward force.
-        rb.AddForce(0, 0, forwardForce * Time.deltaTime);
+        // Only add forward force if the player's z is less than the levelEnd's z.
+        if (levelEnd != null && rb.position.z < levelEnd.position.z)
+        {
+            rb.AddForce(0, 0, forwardForce * Time.deltaTime);
+        }
 
         // Only allow lateral movement if the player is in positive z.
         if (rb.position.z > 0)

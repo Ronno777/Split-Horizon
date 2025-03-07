@@ -153,8 +153,9 @@ MonoBehaviour:
   sidewaysForce: 100
   gravityForce: 9.81
   fallMultiplier: 5
-  flipDuration: 1
+  flipDuration: 0.7
   detachForce: 5
+  levelEnd: {fileID: 0}
 --- !u!114 &641438014875689907
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -181,4 +182,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fractured: {fileID: 8679277862688091155, guid: 73dd14c1106db69429760bd9c4546c03, type: 3}
-  breakForce: 300
+  breakForce: 600
