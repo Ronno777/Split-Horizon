@@ -12,8 +12,8 @@ public class CeilingLevelGenerator : MonoBehaviour
     [Header("Rotation Offsets (Euler Angles) for CubeTypes 2-5")]
     public Vector3 cubeType2Rotation;
     public Vector3 cubeType3Rotation;
-    public Vector3 cubeType4Rotation;
-    public Vector3 cubeType5Rotation;
+    public Vector3 cubeType4Rotation;  // e.g., (90, 0, 0) to orient vertically
+    public Vector3 cubeType5Rotation;  // e.g., (90, 0, 0) to orient vertically
 
     [Header("Custom Y Offsets for Ceiling CubeTypes")]
     public float cubeType4YOffset = 1f;     // Extra downward offset for CubeType4
@@ -30,6 +30,10 @@ public class CeilingLevelGenerator : MonoBehaviour
     public int cubeType3Count = 10;
     public int cubeType4Count = 10;
     public int cubeType5Count = 10;
+
+    [Header("Density Settings")]
+    [Tooltip("Exponent for biasing the Z coordinate. Values < 1 will bias spawns toward higher Z.")]
+    public float densityExponent = 0.5f;
 
     void Start()
     {
@@ -51,13 +55,19 @@ public class CeilingLevelGenerator : MonoBehaviour
             cubeHeight = cubeCol.bounds.size.y;
         float cubeHalfHeight = cubeHeight / 2f;
 
+        // Function to generate a biased Z coordinate.
+        float GetRandomZ()
+        {
+            return zMin + Mathf.Pow(Random.value, densityExponent) * (zMax - zMin);
+        }
+
         // --- Spawn CubeType1 (Floating Cubes) ---
         // For the ceiling, the cube's top aligns with the ceiling's bottom.
         // Then subtract spawnYOffset and a random additional offset to "float" downward.
         for (int i = 0; i < cubeCount; i++)
         {
             float randomX = Random.Range(xMin, xMax);
-            float randomZ = Random.Range(zMin, zMax);
+            float randomZ = GetRandomZ();
             float randomYOffset = Random.Range(0f, spawnHeightRange);
             Vector3 spawnPos = new Vector3(
                 randomX,
@@ -84,7 +94,7 @@ public class CeilingLevelGenerator : MonoBehaviour
         for (int i = 0; i < cubeType2Count; i++)
         {
             float randomX = Random.Range(xMin, xMax);
-            float randomZ = Random.Range(zMin, zMax);
+            float randomZ = GetRandomZ();
             Vector3 spawnPos = new Vector3(randomX, flushSpawnY, randomZ);
             GameObject instance = Instantiate(cubeType2Prefab, spawnPos, cubeType2Quat);
             Renderer rend = instance.GetComponent<Renderer>();
@@ -96,7 +106,7 @@ public class CeilingLevelGenerator : MonoBehaviour
         for (int i = 0; i < cubeType3Count; i++)
         {
             float randomX = Random.Range(xMin, xMax);
-            float randomZ = Random.Range(zMin, zMax);
+            float randomZ = GetRandomZ();
             Vector3 spawnPos = new Vector3(randomX, flushSpawnY, randomZ);
             GameObject instance = Instantiate(cubeType3Prefab, spawnPos, cubeType3Quat);
             Renderer rend = instance.GetComponent<Renderer>();
@@ -108,7 +118,7 @@ public class CeilingLevelGenerator : MonoBehaviour
         for (int i = 0; i < cubeType4Count; i++)
         {
             float randomX = Random.Range(xMin, xMax);
-            float randomZ = Random.Range(zMin, zMax);
+            float randomZ = GetRandomZ();
             Vector3 spawnPos = new Vector3(randomX, flushSpawnY - cubeType4YOffset, randomZ);
             GameObject instance = Instantiate(cubeType4Prefab, spawnPos, cubeType4Quat);
             Renderer rend = instance.GetComponent<Renderer>();
@@ -120,7 +130,7 @@ public class CeilingLevelGenerator : MonoBehaviour
         for (int i = 0; i < cubeType5Count; i++)
         {
             float randomX = Random.Range(xMin, xMax);
-            float randomZ = Random.Range(zMin, zMax);
+            float randomZ = GetRandomZ();
             Vector3 spawnPos = new Vector3(randomX, flushSpawnY - cubeType5YOffset, randomZ);
             GameObject instance = Instantiate(cubeType5Prefab, spawnPos, cubeType5Quat);
             Renderer rend = instance.GetComponent<Renderer>();

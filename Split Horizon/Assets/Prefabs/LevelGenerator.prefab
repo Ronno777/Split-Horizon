@@ -57,15 +57,14 @@ MonoBehaviour:
   cubeType4YOffset: 1
   cubeType5YOffset: 0.5
   ground: {fileID: 0}
-  playerTransform: {fileID: 0}
-  spawnZMinOffset: 10
-  cubeCount: 40
+  cubeCount: 100
   spawnYOffset: 0.5
   spawnHeightRange: 7
-  cubeType2Count: 15
-  cubeType3Count: 10
-  cubeType4Count: 10
-  cubeType5Count: 15
+  cubeType2Count: 30
+  cubeType3Count: 15
+  cubeType4Count: 15
+  cubeType5Count: 30
+  densityExponent: 0.7
 --- !u!114 &4370813263609238497
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -90,10 +89,11 @@ MonoBehaviour:
   cubeType4YOffset: 1
   cubeType5YOffset: 0.5
   ceiling: {fileID: 0}
-  cubeCount: 40
+  cubeCount: 100
   spawnYOffset: 0.5
   spawnHeightRange: 7
-  cubeType2Count: 15
-  cubeType3Count: 10
-  cubeType4Count: 10
-  cubeType5Count: 15
+  cubeType2Count: 30
+  cubeType3Count: 15
+  cubeType4Count: 15
+  cubeType5Count: 30
+  densityExponent: 0.7

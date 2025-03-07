@@ -28,6 +28,7 @@ public class PlayerMovement : MonoBehaviour
 
     void FixedUpdate()
     {
+        // Apply custom gravity.
         Vector3 gravityDir = isGravityFlipped ? Vector3.up : Vector3.down;
         float currentGravity = gravityForce;
         if (Vector3.Dot(rb.velocity, gravityDir) > 0)
@@ -36,12 +37,19 @@ public class PlayerMovement : MonoBehaviour
         }
         rb.AddForce(gravityDir * currentGravity, ForceMode.Acceleration);
 
+        // Always add forward force.
         rb.AddForce(0, 0, forwardForce * Time.deltaTime);
-        if (Input.GetKey("d"))
-            rb.AddForce(sidewaysForce * Time.deltaTime, 0, 0, ForceMode.VelocityChange);
-        if (Input.GetKey("a"))
-            rb.AddForce(-sidewaysForce * Time.deltaTime, 0, 0, ForceMode.VelocityChange);
 
+        // Only allow lateral movement if the player is in positive z.
+        if (rb.position.z > 0)
+        {
+            if (Input.GetKey("d"))
+                rb.AddForce(sidewaysForce * Time.deltaTime, 0, 0, ForceMode.VelocityChange);
+            if (Input.GetKey("a"))
+                rb.AddForce(-sidewaysForce * Time.deltaTime, 0, 0, ForceMode.VelocityChange);
+        }
+
+        // Check for out-of-bounds (y too low or too high) and trigger destruction.
         if (rb.position.y < -2f || rb.position.y > 24f)
         {
             DestructionBehavior playerDestruction = GetComponent<DestructionBehavior>();
@@ -49,13 +57,14 @@ public class PlayerMovement : MonoBehaviour
             {
                 playerDestruction.FractureObject();
             }
-            FindObjectOfType<GameManager>().EndGame();
+            FindObjectOfType<GameManager>().TriggerSlowMoAndEndGame();
         }
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && !isFlipping)
+        // Only allow flip input if the player is in positive z.
+        if (rb.position.z > 0 && Input.GetKeyDown(KeyCode.Space) && !isFlipping)
         {
             StartCoroutine(FlipGravityCoroutine());
         }

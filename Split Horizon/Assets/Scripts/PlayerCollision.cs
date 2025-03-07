@@ -17,7 +17,9 @@ public class PlayerCollision : MonoBehaviour
 
             // Disable player movement.
             movement.enabled = false;
-            FindObjectOfType<GameManager>().EndGame();
+
+            // Trigger slow-motion effect and restart via GameManager
+            FindObjectOfType<GameManager>().TriggerSlowMoAndEndGame();
 
             // Fracture the player.
             DestructionBehavior playerDestruction = GetComponent<DestructionBehavior>();

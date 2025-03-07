@@ -19,10 +19,8 @@ public class LevelGenerator : MonoBehaviour
     public float cubeType4YOffset = 1f;   // Extra upward offset for CubeType4
     public float cubeType5YOffset = 0.5f;   // Extra upward offset for CubeType5
 
-    [Header("Platform & Player Settings")]
+    [Header("Platform Settings")]
     public GameObject ground;             // Ground object.
-    public Transform playerTransform;     // Player's transform.
-    public float spawnZMinOffset = 10f;     // Minimum distance in Z from the player's spawn.
 
     [Header("CubeType1 Settings (Floating Cubes)")]
     public int cubeCount = 20;            // Number of CubeType1 cubes.
@@ -34,6 +32,10 @@ public class LevelGenerator : MonoBehaviour
     public int cubeType3Count = 10;
     public int cubeType4Count = 10;
     public int cubeType5Count = 10;
+
+    [Header("Density Settings")]
+    [Tooltip("Exponent for biasing the Z coordinate. Values < 1 will bias spawns toward higher Z.")]
+    public float densityExponent = 0.5f;
 
     void Start()
     {
@@ -55,16 +57,18 @@ public class LevelGenerator : MonoBehaviour
             cubeHeight = cubeCollider.bounds.size.y;
         float cubeHalfHeight = cubeHeight / 2f;
 
-        // Set the minimum Z for spawning based on the player's position.
-        float minSpawnZ = playerTransform.position.z + spawnZMinOffset;
-        if (minSpawnZ < groundZMin)
-            minSpawnZ = groundZMin;
+        // Function to generate a biased Z coordinate.
+        float GetRandomZ()
+        {
+            // Using Random.value with exponent densityExponent biases toward higher Z if densityExponent < 1.
+            return groundZMin + Mathf.Pow(Random.value, densityExponent) * (groundZMax - groundZMin);
+        }
 
         // Spawn CubeType1: Floating cubes with random vertical offset.
         for (int i = 0; i < cubeCount; i++)
         {
             float randomX = Random.Range(groundXMin, groundXMax);
-            float randomZ = Random.Range(minSpawnZ, groundZMax);
+            float randomZ = GetRandomZ();
             float randomYOffset = Random.Range(0f, spawnHeightRange);
             Vector3 spawnPos = new Vector3(
                 randomX,
@@ -79,7 +83,7 @@ public class LevelGenerator : MonoBehaviour
         for (int i = 0; i < cubeType2Count; i++)
         {
             float randomX = Random.Range(groundXMin, groundXMax);
-            float randomZ = Random.Range(minSpawnZ, groundZMax);
+            float randomZ = GetRandomZ();
             Vector3 spawnPos = new Vector3(
                 randomX,
                 groundTopY + cubeHalfHeight + spawnYOffset,
@@ -93,7 +97,7 @@ public class LevelGenerator : MonoBehaviour
         for (int i = 0; i < cubeType3Count; i++)
         {
             float randomX = Random.Range(groundXMin, groundXMax);
-            float randomZ = Random.Range(minSpawnZ, groundZMax);
+            float randomZ = GetRandomZ();
             Vector3 spawnPos = new Vector3(
                 randomX,
                 groundTopY + cubeHalfHeight + spawnYOffset,
@@ -107,7 +111,7 @@ public class LevelGenerator : MonoBehaviour
         for (int i = 0; i < cubeType4Count; i++)
         {
             float randomX = Random.Range(groundXMin, groundXMax);
-            float randomZ = Random.Range(minSpawnZ, groundZMax);
+            float randomZ = GetRandomZ();
             Vector3 spawnPos = new Vector3(
                 randomX,
                 groundTopY + cubeHalfHeight + spawnYOffset + cubeType4YOffset,
@@ -121,7 +125,7 @@ public class LevelGenerator : MonoBehaviour
         for (int i = 0; i < cubeType5Count; i++)
         {
             float randomX = Random.Range(groundXMin, groundXMax);
-            float randomZ = Random.Range(minSpawnZ, groundZMax);
+            float randomZ = GetRandomZ();
             Vector3 spawnPos = new Vector3(
                 randomX,
                 groundTopY + cubeHalfHeight + spawnYOffset + cubeType5YOffset,
