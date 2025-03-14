@@ -102,4 +102,4 @@ MonoBehaviour:
   fixedPitch: 10
   fixedYaw: 0
   rollSmoothSpeed: 20
-  lateralTiltAngle: 3
+  lateralTiltAngle: -3

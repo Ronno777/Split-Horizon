@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8039367372583515456}
-  - component: {fileID: 8246978315400421333}
+  - component: {fileID: 29916823289693204}
   - component: {fileID: 4370813263609238497}
   m_Layer: 0
   m_Name: LevelGenerator
@@ -33,7 +33,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8246978315400421333
+--- !u!114 &29916823289693204
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -42,9 +42,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1504614816403243692}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc78433e54a4089448a64e91d2466b81, type: 3}
+  m_Script: {fileID: 11500000, guid: 4a5bd735054ab8b41b09f8a2e395968f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  ground: {fileID: 0}
   cubePrefab: {fileID: 5669470724609737552, guid: 8632d6e9385e0f94b813db5138e92eca, type: 3}
   cubeType2Prefab: {fileID: 4093407105572727737, guid: 572c6a37a1ec827438c7b058f2fe0f39, type: 3}
   cubeType3Prefab: {fileID: 7424855586100662289, guid: 9d4851cbc0e306e439aa223496fa50e0, type: 3}
@@ -56,15 +58,16 @@ MonoBehaviour:
   cubeType5Rotation: {x: 0, y: 0, z: 0}
   cubeType4YOffset: 1
   cubeType5YOffset: 0.5
-  ground: {fileID: 0}
-  cubeCount: 100
+  cubeCount: 15
   spawnYOffset: 0.5
   spawnHeightRange: 7
-  cubeType2Count: 30
-  cubeType3Count: 15
-  cubeType4Count: 15
-  cubeType5Count: 30
-  densityExponent: 0.7
+  cubeType2Count: 0
+  cubeType3Count: 0
+  cubeType4Count: 0
+  cubeType5Count: 0
+  generationDistance: 120
+  sectionLength: 50
+  generationXDistance: 100
 --- !u!114 &4370813263609238497
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -77,6 +80,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4bc29b9c45eb12e45add85ccec08a202, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  player: {fileID: 0}
+  ceiling: {fileID: 0}
   cubePrefab: {fileID: 5669470724609737552, guid: 8632d6e9385e0f94b813db5138e92eca, type: 3}
   cubeType2Prefab: {fileID: 4093407105572727737, guid: 572c6a37a1ec827438c7b058f2fe0f39, type: 3}
   cubeType3Prefab: {fileID: 7424855586100662289, guid: 9d4851cbc0e306e439aa223496fa50e0, type: 3}
@@ -88,12 +93,13 @@ MonoBehaviour:
   cubeType5Rotation: {x: 0, y: 0, z: 0}
   cubeType4YOffset: 1
   cubeType5YOffset: 0.5
-  ceiling: {fileID: 0}
-  cubeCount: 100
+  cubeCount: 15
   spawnYOffset: 0.5
   spawnHeightRange: 7
-  cubeType2Count: 30
-  cubeType3Count: 15
-  cubeType4Count: 15
-  cubeType5Count: 30
-  densityExponent: 0.7
+  cubeType2Count: 0
+  cubeType3Count: 0
+  cubeType4Count: 0
+  cubeType5Count: 0
+  generationDistance: 120
+  sectionLength: 50
+  generationXDistance: 100

@@ -16,6 +16,8 @@ GameObject:
   - component: {fileID: 6157856154010484665}
   - component: {fileID: 641438014875689907}
   - component: {fileID: 2547912288136393183}
+  - component: {fileID: 1037271323169862218}
+  - component: {fileID: 6960124720799692297}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -150,11 +152,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 2724123926308205252}
   forwardForce: 4000
-  sidewaysForce: 100
+  sidewaysForce: 200
   gravityForce: 9.81
   fallMultiplier: 5
-  flipDuration: 0.7
   detachForce: 5
+  flipDuration: 0.7
   levelEnd: {fileID: 0}
 --- !u!114 &641438014875689907
 MonoBehaviour:
@@ -182,4 +184,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fractured: {fileID: 8679277862688091155, guid: 73dd14c1106db69429760bd9c4546c03, type: 3}
-  breakForce: 600
+  breakForce: 800
+--- !u!65 &1037271323169862218
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5382888994934456655}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 300, y: 30, z: 15}
+  m_Center: {x: 0, y: 0, z: -15}
+--- !u!114 &6960124720799692297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5382888994934456655}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d2aa7ac967d5ea41b0fb8281c60ea54, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
