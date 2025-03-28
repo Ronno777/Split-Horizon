@@ -18,7 +18,12 @@ public class PlayerCollision : MonoBehaviour
             }
             if (cheatCodes != null && cheatCodes.invincible)
             {
-                Debug.Log("Invincible! Obstacle collision ignored.");
+                Debug.Log("Invincible! Now ignoring obstacle collision.");
+                Collider playerCollider = GetComponent<Collider>();
+                if (playerCollider != null)
+                {
+                    Physics.IgnoreCollision(playerCollider, collisionInfo.collider, true);
+                }
                 return;
             }
 

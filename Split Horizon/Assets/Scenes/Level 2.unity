@@ -809,6 +809,17 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a23dd8432e06a3d46a6485cd4f9efb5a, type: 3}
+--- !u!114 &1637898158 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 132619446543912902, guid: a23dd8432e06a3d46a6485cd4f9efb5a, type: 3}
+  m_PrefabInstance: {fileID: 1637898157}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1248803467787924680
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1234,6 +1245,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 244097349694271545, guid: e2579d6d9afd2f8408297cf2b8ad6bad, type: 3}
+      propertyPath: invincibilityText
+      value: 
+      objectReference: {fileID: 1637898158}
     - target: {fileID: 1735051577215125872, guid: e2579d6d9afd2f8408297cf2b8ad6bad, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1553,6 +1568,10 @@ PrefabInstance:
     - target: {fileID: 2607978522036849947, guid: ed22033494e36f94dad463e9efa7309b, type: 3}
       propertyPath: m_Name
       value: Main Camera
+      objectReference: {fileID: 0}
+    - target: {fileID: 2607978522036849947, guid: ed22033494e36f94dad463e9efa7309b, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5065239707674462023, guid: ed22033494e36f94dad463e9efa7309b, type: 3}
       propertyPath: m_LocalPosition.x

@@ -257,6 +257,7 @@ MonoBehaviour:
   endPoint: {fileID: 0}
   scoreText: {fileID: 3192451524475189767}
   progressCircle: {fileID: 2629618196880861311}
+  gameOverText: {fileID: 1431174897392399585}
   startZ: 0
 --- !u!1 &2367971749552864912
 GameObject:

@@ -1477,14 +1477,6 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1522850903}
     - target: {fileID: 7500075894907892976, guid: ed22033494e36f94dad463e9efa7309b, type: 3}
-      propertyPath: offset.y
-      value: 4.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7500075894907892976, guid: ed22033494e36f94dad463e9efa7309b, type: 3}
-      propertyPath: offset.z
-      value: -7.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7500075894907892976, guid: ed22033494e36f94dad463e9efa7309b, type: 3}
       propertyPath: playerMovement
       value: 
       objectReference: {fileID: 1522850904}
