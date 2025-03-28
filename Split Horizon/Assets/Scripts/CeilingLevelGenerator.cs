@@ -33,10 +33,18 @@ public class CeilingLevelGenerator : MonoBehaviour
     public int cubeType4Count = 10;
     public int cubeType5Count = 10;
 
+    [Header("Rare Obstacle Settings")]
+    public GameObject[] rareObstaclePrefabs;
+    [Tooltip("Chance for a rare obstacle to spawn in each section (0 to 1)")]
+    public float rareObstacleChance = 0.1f;
+
+    [Header("Cube Material Settings")]
+    public Material cubeMaterial;
+
     [Header("Generation Settings")]
     public float generationDistance = 500f; // Distance ahead of the player to generate sections
     public float sectionLength = 50f;       // Length of each section along the Z-axis
-    public float generationXDistance = 500f; // Maximum distance on the x-axis from the player
+    public float generationXDistance = 500f;  // Maximum distance on the x-axis from the player
 
     private float nextGenerationZ;
     private float xMin;
@@ -98,13 +106,9 @@ public class CeilingLevelGenerator : MonoBehaviour
         float clampedStart = Mathf.Clamp(sectionStartZ, zMin, zMax);
         float clampedEnd = Mathf.Clamp(sectionEndZ, zMin, zMax);
 
-        // Function to get a random Z coordinate uniformly within the clamped section.
-        float GetRandomZ()
-        {
-            return Random.Range(clampedStart, clampedEnd);
-        }
+        // Local functions to generate random positions.
+        float GetRandomZ() => Random.Range(clampedStart, clampedEnd);
 
-        // Helper to generate a random X coordinate based on the player's current position.
         float GetRandomX()
         {
             float effectiveXMin = Mathf.Max(xMin, player.position.x - generationXDistance);
@@ -112,12 +116,10 @@ public class CeilingLevelGenerator : MonoBehaviour
             return Random.Range(effectiveXMin, effectiveXMax);
         }
 
-        // Calculate flush spawn Y (cube's top touches ceiling's bottom).
+        // Calculate flush spawn Y: cube's top touches the ceiling's bottom.
         float flushSpawnY = ceilingBottomY + cubeHalfHeight - spawnYOffset;
 
         // --- Spawn CubeType1 (Floating Cubes) ---
-        // For the ceiling, the cube's top aligns with the ceiling's bottom,
-        // then subtract spawnYOffset and an extra random downward offset.
         for (int i = 0; i < cubeCount; i++)
         {
             float randomX = GetRandomX();
@@ -125,9 +127,7 @@ public class CeilingLevelGenerator : MonoBehaviour
             float randomYOffset = Random.Range(0f, spawnHeightRange);
             Vector3 spawnPos = new Vector3(randomX, ceilingBottomY + cubeHalfHeight - spawnYOffset - randomYOffset, randomZ);
             GameObject instance = Instantiate(cubePrefab, spawnPos, Quaternion.identity);
-            Renderer rend = instance.GetComponent<Renderer>();
-            if (rend != null)
-                rend.material = new Material(Shader.Find("Standard"));
+            ApplyCubeMaterial(instance);
         }
 
         // Prepare rotation quaternions for flush-spawned cube types.
@@ -143,9 +143,7 @@ public class CeilingLevelGenerator : MonoBehaviour
             float randomZ = GetRandomZ();
             Vector3 spawnPos = new Vector3(randomX, flushSpawnY, randomZ);
             GameObject instance = Instantiate(cubeType2Prefab, spawnPos, cubeType2Quat);
-            Renderer rend = instance.GetComponent<Renderer>();
-            if (rend != null)
-                rend.material = new Material(Shader.Find("Standard"));
+            ApplyCubeMaterial(instance);
         }
 
         // --- Spawn CubeType3 (Flush) ---
@@ -155,9 +153,7 @@ public class CeilingLevelGenerator : MonoBehaviour
             float randomZ = GetRandomZ();
             Vector3 spawnPos = new Vector3(randomX, flushSpawnY, randomZ);
             GameObject instance = Instantiate(cubeType3Prefab, spawnPos, cubeType3Quat);
-            Renderer rend = instance.GetComponent<Renderer>();
-            if (rend != null)
-                rend.material = new Material(Shader.Find("Standard"));
+            ApplyCubeMaterial(instance);
         }
 
         // --- Spawn CubeType4 (Flush with extra downward offset) ---
@@ -167,9 +163,7 @@ public class CeilingLevelGenerator : MonoBehaviour
             float randomZ = GetRandomZ();
             Vector3 spawnPos = new Vector3(randomX, flushSpawnY - cubeType4YOffset, randomZ);
             GameObject instance = Instantiate(cubeType4Prefab, spawnPos, cubeType4Quat);
-            Renderer rend = instance.GetComponent<Renderer>();
-            if (rend != null)
-                rend.material = new Material(Shader.Find("Standard"));
+            ApplyCubeMaterial(instance);
         }
 
         // --- Spawn CubeType5 (Flush with extra downward offset) ---
@@ -179,9 +173,44 @@ public class CeilingLevelGenerator : MonoBehaviour
             float randomZ = GetRandomZ();
             Vector3 spawnPos = new Vector3(randomX, flushSpawnY - cubeType5YOffset, randomZ);
             GameObject instance = Instantiate(cubeType5Prefab, spawnPos, cubeType5Quat);
-            Renderer rend = instance.GetComponent<Renderer>();
-            if (rend != null)
-                rend.material = new Material(Shader.Find("Standard"));
+            ApplyCubeMaterial(instance);
+        }
+
+        // --- Occasionally spawn a rare obstacle on the ceiling ---
+        if (rareObstaclePrefabs != null && rareObstaclePrefabs.Length > 0 && Random.value < rareObstacleChance)
+        {
+            GameObject rarePrefab = rareObstaclePrefabs[Random.Range(0, rareObstaclePrefabs.Length)];
+            float randomX = GetRandomX();
+            float randomZ = GetRandomZ();
+            float rareHalfHeight = 0f;
+            Collider rareCollider = rarePrefab.GetComponent<Collider>();
+            if (rareCollider != null)
+                rareHalfHeight = rareCollider.bounds.size.y / 2f;
+            // Spawn the rare obstacle flush with the ceiling.
+            Vector3 spawnPos = new Vector3(randomX, ceilingBottomY + rareHalfHeight, randomZ);
+            GameObject instance = Instantiate(rarePrefab, spawnPos, Quaternion.identity);
+            ApplyCubeMaterial(instance);
+        }
+    }
+
+    // Helper method to apply the assigned cube material.
+    void ApplyCubeMaterial(GameObject obj)
+    {
+        if (cubeMaterial == null)
+            return;
+
+        Renderer rend = obj.GetComponent<Renderer>();
+        if (rend != null)
+        {
+            rend.material = cubeMaterial;
+        }
+        else
+        {
+            Renderer[] childRenderers = obj.GetComponentsInChildren<Renderer>();
+            foreach (Renderer child in childRenderers)
+            {
+                child.material = cubeMaterial;
+            }
         }
     }
 }

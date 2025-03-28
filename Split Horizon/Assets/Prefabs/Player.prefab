@@ -152,7 +152,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 2724123926308205252}
   forwardForce: 4000
-  sidewaysForce: 200
+  sidewaysForce: 150
   gravityForce: 9.81
   fallMultiplier: 5
   detachForce: 5
@@ -171,6 +171,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movement: {fileID: 6157856154010484665}
+  fractureDelay: 0.01
 --- !u!114 &2547912288136393183
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -184,7 +185,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fractured: {fileID: 8679277862688091155, guid: 73dd14c1106db69429760bd9c4546c03, type: 3}
-  breakForce: 800
+  breakForce: 300
 --- !u!65 &1037271323169862218
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -204,7 +205,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 300, y: 30, z: 15}
+  m_Size: {x: 500, y: 30, z: 15}
   m_Center: {x: 0, y: 0, z: -15}
 --- !u!114 &6960124720799692297
 MonoBehaviour:

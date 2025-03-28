@@ -33,6 +33,14 @@ public class DynamicLevelGenerator : MonoBehaviour
     public int cubeType4Count = 10;
     public int cubeType5Count = 10;
 
+    [Header("Rare Obstacle Settings")]
+    public GameObject[] rareObstaclePrefabs;
+    [Tooltip("Chance for a rare obstacle to spawn in each section (0 to 1)")]
+    public float rareObstacleChance = 0.1f;
+
+    [Header("Cube Material Settings")]
+    public Material cubeMaterial;
+
     [Header("Generation Settings")]
     public float generationDistance = 500f; // Distance ahead of the player to generate sections.
     public float sectionLength = 50f;       // Length of each section along the Z-axis.
@@ -85,17 +93,14 @@ public class DynamicLevelGenerator : MonoBehaviour
 
     void GenerateSection(float sectionStartZ, float sectionEndZ)
     {
-        // Clamp section boundaries to ensure the section lies within the ground.
+        // Clamp section boundaries.
         float clampedStart = Mathf.Clamp(sectionStartZ, groundZMin, groundZMax);
         float clampedEnd = Mathf.Clamp(sectionEndZ, groundZMin, groundZMax);
 
-        // Generate a random Z coordinate uniformly within the clamped section.
-        float GetRandomZ()
-        {
-            return Random.Range(clampedStart, clampedEnd);
-        }
+        // Generate a random Z coordinate within the section.
+        float GetRandomZ() => Random.Range(clampedStart, clampedEnd);
 
-        // Helper to generate a random X coordinate based on player's current position.
+        // Generate a random X coordinate based on the player's position.
         float GetRandomX()
         {
             float effectiveXMin = Mathf.Max(groundXMin, player.position.x - generationXDistance);
@@ -103,7 +108,7 @@ public class DynamicLevelGenerator : MonoBehaviour
             return Random.Range(effectiveXMin, effectiveXMax);
         }
 
-        // Get half-height of CubeType1 using its collider.
+        // Get half-height of CubeType1.
         float cubeHeight = 1f;
         Collider cubeCollider = cubePrefab.GetComponent<Collider>();
         if (cubeCollider != null)
@@ -117,7 +122,8 @@ public class DynamicLevelGenerator : MonoBehaviour
             float randomZ = GetRandomZ();
             float randomYOffset = Random.Range(0f, spawnHeightRange);
             Vector3 spawnPos = new Vector3(randomX, groundTopY + cubeHalfHeight + spawnYOffset + randomYOffset, randomZ);
-            Instantiate(cubePrefab, spawnPos, Quaternion.identity);
+            GameObject instance = Instantiate(cubePrefab, spawnPos, Quaternion.identity);
+            ApplyCubeMaterial(instance);
         }
 
         // Spawn CubeType2.
@@ -127,7 +133,8 @@ public class DynamicLevelGenerator : MonoBehaviour
             float randomX = GetRandomX();
             float randomZ = GetRandomZ();
             Vector3 spawnPos = new Vector3(randomX, groundTopY + cubeHalfHeight + spawnYOffset, randomZ);
-            Instantiate(cubeType2Prefab, spawnPos, cubeType2Quat);
+            GameObject instance = Instantiate(cubeType2Prefab, spawnPos, cubeType2Quat);
+            ApplyCubeMaterial(instance);
         }
 
         // Spawn CubeType3.
@@ -137,7 +144,8 @@ public class DynamicLevelGenerator : MonoBehaviour
             float randomX = GetRandomX();
             float randomZ = GetRandomZ();
             Vector3 spawnPos = new Vector3(randomX, groundTopY + cubeHalfHeight + spawnYOffset, randomZ);
-            Instantiate(cubeType3Prefab, spawnPos, cubeType3Quat);
+            GameObject instance = Instantiate(cubeType3Prefab, spawnPos, cubeType3Quat);
+            ApplyCubeMaterial(instance);
         }
 
         // Spawn CubeType4.
@@ -147,7 +155,8 @@ public class DynamicLevelGenerator : MonoBehaviour
             float randomX = GetRandomX();
             float randomZ = GetRandomZ();
             Vector3 spawnPos = new Vector3(randomX, groundTopY + cubeHalfHeight + spawnYOffset + cubeType4YOffset, randomZ);
-            Instantiate(cubeType4Prefab, spawnPos, cubeType4Quat);
+            GameObject instance = Instantiate(cubeType4Prefab, spawnPos, cubeType4Quat);
+            ApplyCubeMaterial(instance);
         }
 
         // Spawn CubeType5.
@@ -157,7 +166,48 @@ public class DynamicLevelGenerator : MonoBehaviour
             float randomX = GetRandomX();
             float randomZ = GetRandomZ();
             Vector3 spawnPos = new Vector3(randomX, groundTopY + cubeHalfHeight + spawnYOffset + cubeType5YOffset, randomZ);
-            Instantiate(cubeType5Prefab, spawnPos, cubeType5Quat);
+            GameObject instance = Instantiate(cubeType5Prefab, spawnPos, cubeType5Quat);
+            ApplyCubeMaterial(instance);
+        }
+
+        // Occasionally spawn a rare obstacle.
+        if (rareObstaclePrefabs != null && rareObstaclePrefabs.Length > 0 && Random.value < rareObstacleChance)
+        {
+            // Choose a random rare obstacle prefab.
+            GameObject rarePrefab = rareObstaclePrefabs[Random.Range(0, rareObstaclePrefabs.Length)];
+            float randomX = GetRandomX();
+            float randomZ = GetRandomZ();
+            float rareHalfHeight = 0f;
+            Collider rareCollider = rarePrefab.GetComponent<Collider>();
+            if (rareCollider != null)
+                rareHalfHeight = rareCollider.bounds.size.y / 2f;
+            // Add an extra upward offset (e.g., 0.1f) so the rare obstacle doesn't spawn in the ground.
+            // float extraYOffset = 0.0f; add it back to bottom equation if needed.
+            Vector3 spawnPos = new Vector3(randomX, groundTopY + rareHalfHeight, randomZ);
+            GameObject instance = Instantiate(rarePrefab, spawnPos, rarePrefab.transform.rotation);
+            ApplyCubeMaterial(instance);
+        }
+    }
+
+    // Helper method to apply the specified material to an object's renderer(s).
+    void ApplyCubeMaterial(GameObject obj)
+    {
+        if (cubeMaterial == null)
+            return;
+
+        Renderer rend = obj.GetComponent<Renderer>();
+        if (rend != null)
+        {
+            rend.material = cubeMaterial;
+        }
+        else
+        {
+            // If the object has children with renderers, apply to all.
+            Renderer[] childRenderers = obj.GetComponentsInChildren<Renderer>();
+            foreach (Renderer childRend in childRenderers)
+            {
+                childRend.material = cubeMaterial;
+            }
         }
     }
 }

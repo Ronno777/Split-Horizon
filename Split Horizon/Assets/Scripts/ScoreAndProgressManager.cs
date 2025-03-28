@@ -9,6 +9,7 @@ public class ScoreAndProgress : MonoBehaviour
     public Transform endPoint;           // The "END" prefab's Transform
     public TextMeshProUGUI scoreText;    // Text for displaying the player's z-position
     public Image progressCircle;         // UI circle image that fills as the player progresses
+    public TextMeshProUGUI gameOverText; // GameOver text attached to the same canvas
 
     [Header("Settings")]
     [Tooltip("The player's starting Z position for progress calculation.")]
@@ -17,23 +18,30 @@ public class ScoreAndProgress : MonoBehaviour
     private void Start()
     {
         // Ensure all references are assigned.
-        if (player == null || endPoint == null || scoreText == null || progressCircle == null)
+        if (player == null || endPoint == null || scoreText == null || progressCircle == null || gameOverText == null)
         {
             Debug.LogError("ScoreAndProgress: One or more references are not assigned. Disabling script.");
             enabled = false;
             return;
         }
 
-        // Initialize the progress circle.
+        // Initialize the progress circle and hide the GameOver text.
         progressCircle.fillAmount = 0f;
+        gameOverText.gameObject.SetActive(false);
     }
 
     private void Update()
     {
         if (player == null)
         {
-            scoreText.text = "Game Over";
+            // If player is null, activate the GameOver text.
+            gameOverText.gameObject.SetActive(true);
             return;
+        }
+        else
+        {
+            // Ensure the GameOver text is hidden while the player exists.
+            gameOverText.gameObject.SetActive(false);
         }
 
         float playerZ = player.position.z;

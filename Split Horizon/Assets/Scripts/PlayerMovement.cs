@@ -70,19 +70,28 @@ public class PlayerMovement : MonoBehaviour
     {
         if (rb.position.z > -50)
         {
-            if (Input.GetKey("d"))
+            // If flipped, invert lateral controls.
+            float lateralMultiplier = isGravityFlipped ? -1f : 1f;
+
+            // Move right when pressing D or RightArrow.
+            if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
             {
-                rb.AddForce(Vector3.right * sidewaysForce * Time.deltaTime, ForceMode.VelocityChange);
+                rb.AddForce(Vector3.right * sidewaysForce * lateralMultiplier * Time.deltaTime, ForceMode.VelocityChange);
             }
-            if (Input.GetKey("a"))
+            // Move left when pressing A or LeftArrow.
+            if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
             {
-                rb.AddForce(Vector3.left * sidewaysForce * Time.deltaTime, ForceMode.VelocityChange);
+                rb.AddForce(Vector3.left * sidewaysForce * lateralMultiplier * Time.deltaTime, ForceMode.VelocityChange);
             }
         }
     }
 
     private void CheckOutOfBounds()
     {
+        GameManager gm = FindObjectOfType<GameManager>();
+        if (gm != null && gm.isLevelComplete)
+            return; // Stop checking if level is complete.
+
         if (rb.position.y < -2f || rb.position.y > 24f)
         {
             DestructionBehavior destruction = GetComponent<DestructionBehavior>();
@@ -90,13 +99,13 @@ public class PlayerMovement : MonoBehaviour
             {
                 destruction.FractureObject();
             }
-            GameManager gm = FindObjectOfType<GameManager>();
             if (gm != null)
             {
                 gm.TriggerSlowMoAndEndGame();
             }
         }
     }
+
 
     private void ProcessInput()
     {

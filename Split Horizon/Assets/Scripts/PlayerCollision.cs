@@ -10,7 +10,19 @@ public class PlayerCollision : MonoBehaviour
     {
         if (collisionInfo.collider.CompareTag("Obstacle"))
         {
-            // Cache the destruction behavior components immediately.
+            // Check if invincibility is active.
+            CheatCodes cheatCodes = GetComponent<CheatCodes>();
+            if (cheatCodes == null)
+            {
+                cheatCodes = FindObjectOfType<CheatCodes>();
+            }
+            if (cheatCodes != null && cheatCodes.invincible)
+            {
+                Debug.Log("Invincible! Obstacle collision ignored.");
+                return;
+            }
+
+            // Cache the destruction behavior components.
             DestructionBehavior obstacleDestruction = collisionInfo.collider.GetComponent<DestructionBehavior>();
             DestructionBehavior playerDestruction = GetComponent<DestructionBehavior>();
 

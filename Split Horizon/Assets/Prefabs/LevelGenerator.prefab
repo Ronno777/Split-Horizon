@@ -65,9 +65,12 @@ MonoBehaviour:
   cubeType3Count: 0
   cubeType4Count: 0
   cubeType5Count: 0
+  rareObstaclePrefabs: []
+  rareObstacleChance: 0.1
+  cubeMaterial: {fileID: 2100000, guid: 612b560a13e399444977c49f0f9dcee7, type: 2}
   generationDistance: 120
   sectionLength: 50
-  generationXDistance: 100
+  generationXDistance: 200
 --- !u!114 &4370813263609238497
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -100,6 +103,9 @@ MonoBehaviour:
   cubeType3Count: 0
   cubeType4Count: 0
   cubeType5Count: 0
+  rareObstaclePrefabs: []
+  rareObstacleChance: 0.1
+  cubeMaterial: {fileID: 2100000, guid: 4b7324a810d5d36458bbd81dbacd77ac, type: 2}
   generationDistance: 120
   sectionLength: 50
-  generationXDistance: 100
+  generationXDistance: 200

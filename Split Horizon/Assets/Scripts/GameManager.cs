@@ -5,11 +5,13 @@ using System.Collections;
 public class GameManager : MonoBehaviour
 {
     bool gameHasEnded = false;
+    public bool isLevelComplete = false;
     public float restartDelay = 1f;
     public GameObject completeLevelUI;
 
     public void CompleteLevel()
     {
+        isLevelComplete = true;
         completeLevelUI.SetActive(true);
         Debug.Log("Level Won!");
     }
